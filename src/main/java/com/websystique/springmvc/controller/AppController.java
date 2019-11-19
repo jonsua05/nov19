@@ -25,9 +25,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.websystique.springmvc.model.User;
+import com.websystique.springmvc.model.User1;
 import com.websystique.springmvc.model.UserProfile;
 import com.websystique.springmvc.service.UserProfileService;
 import com.websystique.springmvc.service.UserService;
+import com.websystique.springmvc.service.UserService1;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -101,6 +103,51 @@ public class AppController {
 		return "contact";
 	}
         
+        
+        	@Autowired
+	private UserService1 userService1;
+
+	
+    @RequestMapping(value = { "/editUser" }, method = RequestMethod.GET)
+	public String userForm(ModelMap model) {
+                List<User> users = userService.findAllUsers();
+                model.addAttribute("users", users);
+		model.addAttribute("loggedinuser", getPrincipal());
+		model.addAttribute("users", userService1.list());
+		return "editUsers";
+	}
+        
+	@ModelAttribute("user1")
+    public User1 formBackingObject() {
+        return new User1();
+    }
+    
+    	@RequestMapping(value = { "/addUser" }, method = RequestMethod.POST)
+	public String saveUser(@ModelAttribute("user1") @Valid User1 user, BindingResult result, ModelMap model) {
+		if (result.hasErrors()) {
+			model.addAttribute("users", userService1.list());
+			return "editUsers";
+		}
+
+		userService1.save(user);
+		return "redirect:/editUser";
+	}
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 	/**
 	 * This method will provide the medium to add a new user.
 	 */
@@ -125,14 +172,6 @@ public class AppController {
 			return "registration";
 		}
 
-		/*
-		 * Preferred way to achieve uniqueness of field [sso] should be implementing custom @Unique annotation 
-		 * and applying it on field [sso] of Model class [User].
-		 * 
-		 * Below mentioned peace of code [if block] is to demonstrate that you can fill custom errors outside the validation
-		 * framework as well while still using internationalized messages.
-		 * 
-		 */
 		if(!userService.isUserSSOUnique(user.getId(), user.getSsoId())){
 			FieldError ssoError =new FieldError("user","ssoId",messageSource.getMessage("non.unique.ssoId", new String[]{user.getSsoId()}, Locale.getDefault()));
 		    result.addError(ssoError);
