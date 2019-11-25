@@ -9,7 +9,7 @@
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Users List</title>
+	<title>Donaciones List</title>
         <link href="<c:url value='/resources/css/bootstrap.css' />"  rel="stylesheet"></link>
 	<link href="<c:url value='/resources/css/bootstrap2.css' />" rel="stylesheet"></link>
 	<link href="<c:url value='/resources/css/app.css' />" rel="stylesheet"></link>
@@ -34,14 +34,13 @@
 		<%@include file="authheader.jsp" %>	
 		<div class="panel panel-default">
 			  <!-- Default panel contents -->
-		  	<div class="panel-heading"><span class="lead"><spring:message code="app.userlist"/></span></div>
+		  	<div class="panel-heading"><span class="lead"><spring:message code="app.listadonacion"/></span></div>
 			<table class="table table-hover">
 	    		<thead>
 		      		<tr>
-				        <th><spring:message code="app.firstname"/></th>
-				        <th><spring:message code="app.lastname"/></th>
-				        <th><spring:message code="app.email"/></th>
-				        <th><spring:message code="app.ssoid"/></th>
+				        <th><spring:message code="app.nombcreacion"/></th>
+				        <th><spring:message code="app.descripcion"/></th>
+
 				        <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
 				        	<th width="100"></th>
 				        </sec:authorize>
@@ -52,14 +51,13 @@
 					</tr>
 		    	</thead>
 	    		<tbody>
-				<c:forEach items="${users}" var="user">
+				<c:forEach items="${donaciones}" var="donacion">
 					<tr>
-						<td>${user.firstName}</td>
-						<td>${user.lastName}</td>
-						<td>${user.email}</td>
-						<td>${user.ssoId}</td>
-					    <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
-							<td><a href="<c:url value='/edit-user-${user.ssoId}' />" class="btn btn-success custom-width"><spring:message code="app.edituser"/></a></td>
+						<td>${donacion.nombre}</td>
+						<td>${donacion.descripcion}</td>
+						
+					    <sec:authorize access=" hasRole('DBA')">
+							<td><a href="<c:url value='/aplicar${user.ssoId}' />" class="btn btn-success custom-width"><spring:message code="app.aplicar"/></a></td>
 				        </sec:authorize>
 				        <sec:authorize access="hasRole('ADMIN')">
 							<td><a href="<c:url value='/delete-user-${user.ssoId}' />" class="btn btn-danger custom-width"><spring:message code="app.delete"/></a></td>

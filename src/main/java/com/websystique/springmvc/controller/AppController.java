@@ -27,9 +27,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.websystique.springmvc.model.User;
 import com.websystique.springmvc.model.User1;
 import com.websystique.springmvc.model.UserProfile;
+import com.websystique.springmvc.model.donacion;
 import com.websystique.springmvc.service.UserProfileService;
 import com.websystique.springmvc.service.UserService;
 import com.websystique.springmvc.service.UserService1;
+import com.websystique.springmvc.service.donacionService;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -42,7 +44,8 @@ public class AppController {
 
 	@Autowired
 	UserService userService;
-	
+	@Autowired
+        donacionService donacionService;
 	@Autowired
 	UserProfileService userProfileService;
 	
@@ -77,6 +80,15 @@ public class AppController {
 		return "userslist_1";
 	}
         
+        @RequestMapping(value = {"/listadonacion" }, method = RequestMethod.GET)
+	public String listadonacion(ModelMap model) {
+
+		List<donacion> donacion = donacionService.findAlldonaciones();
+		model.addAttribute("donaciones", donacion);
+		
+		return "listadonacion";
+	}
+        
                  @RequestMapping(value = {"/about" }, method = RequestMethod.GET)
 	public String about(ModelMap model) {
 
@@ -84,6 +96,13 @@ public class AppController {
 		model.addAttribute("users", users);
 		model.addAttribute("loggedinuser", getPrincipal());
 		return "about";
+	}
+        
+        @RequestMapping(value = {"/aplicar" }, method = RequestMethod.GET)
+	public String aplicar(ModelMap model) {
+
+		model.addAttribute("loggedinuser", getPrincipal());
+		return "aplicar";
 	}
         
             @RequestMapping(value = {"/gallery" }, method = RequestMethod.GET)
@@ -181,6 +200,33 @@ public class AppController {
 		userService.saveUser(user);
 
 		model.addAttribute("success", "User " + user.getFirstName() + " "+ user.getLastName() + " registered successfully");
+		model.addAttribute("loggedinuser", getPrincipal());
+		//return "success";
+		return "registrationsuccess";
+	}
+        
+        
+        	@RequestMapping(value = { "/anadirdonacion" }, method = RequestMethod.GET)
+	public String newdonacion(ModelMap model) {
+		donacion donacion = new donacion();
+		model.addAttribute("donacion", donacion);
+		model.addAttribute("edit", false);
+		model.addAttribute("loggedinuser", getPrincipal());
+		return "creardonacion";
+	}
+        
+        	@RequestMapping(value = { "/anadirdonacion" }, method = RequestMethod.POST)
+	public String savedonacion(@Valid donacion donacion, BindingResult result,
+			ModelMap model) {
+
+		if (result.hasErrors()) {
+			return "creardonacion";
+		}
+
+			
+		donacionService.savedonacion(donacion);
+
+		model.addAttribute("success", "Donacion " + donacion.getnombre() + " "+ donacion.getdescripcion() + " registered successfully");
 		model.addAttribute("loggedinuser", getPrincipal());
 		//return "success";
 		return "registrationsuccess";

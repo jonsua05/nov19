@@ -102,6 +102,8 @@
                     
                     <sec:authorize access="hasRole('ADMIN')">
                         <button type="button" class="btn  ml-2 w3ls-btn" data-toggle="modal" data-target="#exampleModal1">
+                            <a class="nav-link" href="/tas/listadonacion"><spring:message code="app.listadonacion"/></a></button>
+                        <button type="button" class="btn  ml-2 w3ls-btn" data-toggle="modal" data-target="#exampleModal1">
                             <a class="nav-link" href="/tas/newuser"><spring:message code="app.registry"/></a></button>
                         <button type="button" class="btn  ml-2 w3ls-btn" data-toggle="modal" data-target="#exampleModal1">
                             <a class="nav-link" href="/tas/lista"><spring:message code="app.editadmin"/></a></button>
@@ -110,6 +112,8 @@
                     <sec:authorize access="hasRole('DBA')">
                     	<button type="button" class="btn  ml-2 w3ls-btn" data-toggle="modal" data-target="#exampleModal1">
                             <a class="nav-link" href="/tas/lista"><spring:message code="app.editdba"/></a></button>
+                        <button type="button" class="btn  ml-2 w3ls-btn" data-toggle="modal" data-target="#exampleModal1">
+                            <a class="nav-link" href="/tas/listadonacion"><spring:message code="app.listadonacion"/></a></button>
                     </sec:authorize>
                     
                 </div>
