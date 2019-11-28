@@ -96,8 +96,6 @@
                 <h3 class="home-banner-w3"><spring:message code="app.empieza"/></h3>
                 <div class="d-sm-flex justify-content-center">
                     
-
-
                     <%@include file="authheader.jsp" %>
                     
                     <sec:authorize access="hasRole('ADMIN')">
@@ -107,6 +105,9 @@
                             <a class="nav-link" href="/tas/newuser"><spring:message code="app.registry"/></a></button>
                         <button type="button" class="btn  ml-2 w3ls-btn" data-toggle="modal" data-target="#exampleModal1">
                             <a class="nav-link" href="/tas/lista"><spring:message code="app.editadmin"/></a></button>
+                        <button type="button" class="btn  ml-2 w3ls-btn" data-toggle="modal" data-target="#exampleModal1">
+                            <a class="nav-link" href="http://184.73.89.93:8080/tas/juegos"><spring:message code="app.rest"/></a></button>
+                            
                     </sec:authorize>
                     
                     <sec:authorize access="hasRole('DBA')">
